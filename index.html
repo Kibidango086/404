@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>404 - 页面不存在</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: rgb(152,110,59);
+        }
+        h1 {
+            color: white;
+            font-size: 36px;
+            margin-top: 100px;
+        }
+        p {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        img {
+            width: 200px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        a {
+          color: #fff;
+          background-color: rgba(255, 255, 255, 0.2);
+          padding: 10px 20px;
+          border-radius: 4px;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+        }
+        .footer {
+          text-align: center;
+          margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <p id="sentence"></p>
+    <p id="source"></p>
+    <p id="author"></p>
+    <img id="image" src="./pleasewait.png"><br>
+    <br><p><a href="/">返回主页</a></p>
+    <div class="footer">
+        <p>句子来自一言，图片来自pollinations.ai</p>
+    </div>
+
+    <script>
+        function get_sentence() {
+            fetch('https://v1.hitokoto.cn/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('sentence').innerHTML = data.hitokoto;
+                document.getElementById('source').innerHTML = '——'+(data.from_who || '')+'「' + data.from+'」';
+                if (data.hitokoto) {
+                    document.getElementById('image').src = 'https://image.pollinations.ai/prompt/'+data.hitokoto;
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+
+        get_sentence();
+    </script>
+</body>
+</html>
